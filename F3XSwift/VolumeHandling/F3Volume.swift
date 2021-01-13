@@ -99,7 +99,10 @@ struct F3Volume: Identifiable, Hashable {
             return
         }
         let volumeUUIDKey = kDADiskDescriptionVolumeUUIDKey
-        let diskID = diskInfo[volumeUUIDKey]
+        guard let diskID = diskInfo[volumeUUIDKey] else {
+            self.volumeIdentifier = "NOID"
+            return
+        }
         if let volID = CFUUIDCreateString(kCFAllocatorDefault, (diskID as! CFUUID)) as String? {
             self.volumeIdentifier = volID
         }

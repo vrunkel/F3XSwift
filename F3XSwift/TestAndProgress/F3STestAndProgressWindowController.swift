@@ -103,12 +103,12 @@ class F3STestAndProgressWindowController: NSWindowController {
                 
             case .F3SRunnerStateCancelled:
                 self.testProgress.stopAnimation(nil)
-                self.window!.sheetParent?.endSheet(self.window!, returnCode: NSApplication.ModalResponse(rawValue: -2))
+                self.window!.sheetParent?.endSheet(self.window!, returnCode: NSApplication.ModalResponse(rawValue: -1))
             case .F3SRunnerStateCompleted:
                 self.testProgress.stopAnimation(nil)
-                self.window!.sheetParent?.endSheet(self.window!, returnCode: NSApplication.ModalResponse(rawValue: 0))
+                self.window!.sheetParent?.endSheet(self.window!, returnCode: NSApplication.ModalResponse(rawValue: 1))
             case .F3SRunnerStateFailed:
-                self.window!.sheetParent?.endSheet(self.window!, returnCode: NSApplication.ModalResponse(rawValue: -1))
+                self.window!.sheetParent?.endSheet(self.window!, returnCode: NSApplication.ModalResponse(rawValue: 0))
             default:
                 ()
             }
@@ -116,6 +116,10 @@ class F3STestAndProgressWindowController: NSWindowController {
         
         self.runner!.volumeID = volume.volumeIdentifier
         self.runner!.run(skipWrite: self.skipWrite)
+    }
+    
+    @IBAction func cancelTest(_ sender: Any?) {
+        self.runner!.cancel()
     }
     
 }

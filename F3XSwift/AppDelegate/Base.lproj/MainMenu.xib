@@ -710,7 +710,7 @@
                                     <tableColumns>
                                         <tableColumn width="347" minWidth="40" maxWidth="1000" id="zev-87-eZ6">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
-                                                <font key="font" metaFont="controlContent" size="11"/>
+                                                <font key="font" metaFont="menu" size="11"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                             </tableHeaderCell>
@@ -742,7 +742,7 @@
                                                                 <constraint firstAttribute="height" constant="17" id="1eD-Os-ggE"/>
                                                             </constraints>
                                                             <textFieldCell key="cell" controlSize="small" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="right" title="Free" id="Bfs-l6-S34">
-                                                                <font key="font" metaFont="controlContent" size="11"/>
+                                                                <font key="font" metaFont="menu" size="11"/>
                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                             </textFieldCell>
@@ -753,7 +753,7 @@
                                                                 <constraint firstAttribute="width" constant="87" id="xO8-dx-igc"/>
                                                             </constraints>
                                                             <textFieldCell key="cell" controlSize="small" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Overall" id="Xlf-gR-AJ5">
-                                                                <font key="font" metaFont="controlContent" size="11"/>
+                                                                <font key="font" metaFont="menu" size="11"/>
                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                             </textFieldCell>
@@ -839,7 +839,7 @@
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="14r-jU-F7k">
                         <rect key="frame" x="18" y="18" width="81" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <buttonCell key="cell" type="check" title="skip write" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="WUP-Nq-d3p">
+                        <buttonCell key="cell" type="check" title="skip write" bezelStyle="regularSquare" imagePosition="left" inset="2" id="WUP-Nq-d3p">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>

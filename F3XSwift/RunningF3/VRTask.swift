@@ -208,4 +208,8 @@ class VRTask {
         self._task?.waitUntilExit()
     }
     
+    func terminate() {
+        self._task?.terminate()
+    }
+    
 }

@@ -43,8 +43,19 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTableViewDelegate, NSTable
         self.window.beginSheet(self.testAndProgressController!.window!) { (response) in
             switch response.rawValue {
             case -3: print("Bookmark error")
+                self.testAndProgressController?.close()
+                self.testAndProgressController = nil
             case -2: print("User cancel bookmark")
+                self.testAndProgressController?.close()
+                self.testAndProgressController = nil
+            case -1: print("User cancel task")
+                self.testAndProgressController?.close()
+                self.testAndProgressController = nil
             case 0:
+                print("runer failed")
+                self.testAndProgressController?.close()
+                self.testAndProgressController = nil
+            case 1:
                 self.datasource.volumes![self.volumeTable.selectedRow].testResults = self.testAndProgressController!.runner!.results!
                 DispatchQueue.main.asyncAfter(deadline: .now()) {
                     self.showResults(volume: self.datasource.volumes![self.volumeTable.selectedRow])
@@ -74,7 +85,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTableViewDelegate, NSTable
 
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == "updated" {
-            DispatchQueue.main.asyncAfter(deadline: .now()+2.0, execute: {
+            DispatchQueue.main.asyncAfter(deadline: .now()+1.0, execute: {
                 self.volumeTable.reloadData()
             })
             return

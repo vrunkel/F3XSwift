@@ -19,14 +19,14 @@
         <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" visibleAtLaunch="NO" animationBehavior="default" id="F0z-JX-Cv5">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="196" y="240" width="297" height="208"/>
+            <rect key="contentRect" x="196" y="240" width="297" height="191"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
             <view key="contentView" id="se5-gp-TjO">
-                <rect key="frame" x="0.0" y="0.0" width="297" height="208"/>
+                <rect key="frame" x="0.0" y="0.0" width="297" height="191"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kXc-j5-309">
-                        <rect key="frame" x="18" y="172" width="261" height="16"/>
+                        <rect key="frame" x="18" y="155" width="261" height="16"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" placeholderString="Testing volume ..." id="y5M-lx-jUD">
                             <font key="font" usesAppearanceFont="YES"/>
@@ -35,7 +35,7 @@
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yvF-MJ-KR5">
-                        <rect key="frame" x="18" y="121" width="261" height="16"/>
+                        <rect key="frame" x="18" y="104" width="261" height="16"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" lineBreakMode="clipping" alignment="left" placeholderString="explanations" id="LH2-5F-Xz9">
                             <font key="font" usesAppearanceFont="YES"/>
@@ -44,19 +44,22 @@
                         </textFieldCell>
                     </textField>
                     <progressIndicator wantsLayer="YES" fixedFrame="YES" maxValue="1" indeterminate="YES" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="ubj-En-FMe">
-                        <rect key="frame" x="20" y="145" width="257" height="20"/>
+                        <rect key="frame" x="20" y="128" width="257" height="20"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </progressIndicator>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lZ8-xe-xpY">
-                        <rect key="frame" x="14" y="30" width="109" height="32"/>
+                        <rect key="frame" x="14" y="13" width="109" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Cancel test" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="1iZ-yI-IBR">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
+                        <connections>
+                            <action selector="cancelTest:" target="-2" id="8l1-Vd-R1n"/>
+                        </connections>
                     </button>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4f6-Gt-JMD">
-                        <rect key="frame" x="184" y="30" width="99" height="32"/>
+                        <rect key="frame" x="184" y="13" width="99" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="OK" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="sym-aX-Wn9">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -67,7 +70,7 @@ DQ
                         </buttonCell>
                     </button>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dvO-U7-O4S">
-                        <rect key="frame" x="18" y="97" width="261" height="16"/>
+                        <rect key="frame" x="18" y="80" width="261" height="16"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" lineBreakMode="clipping" alignment="left" placeholderString="stats" id="D5W-dd-aZX">
                             <font key="font" usesAppearanceFont="YES"/>
@@ -80,7 +83,7 @@ DQ
             <connections>
                 <outlet property="delegate" destination="-2" id="0bl-1N-AYu"/>
             </connections>
-            <point key="canvasLocation" x="147.5" y="-11"/>
+            <point key="canvasLocation" x="147.5" y="-19.5"/>
         </window>
     </objects>
 </document>

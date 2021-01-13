@@ -57,13 +57,17 @@ class F3VolumeDataSource: NSObject {
             url = enumerator?.nextObject() as? URL
         }
         self.volumes = volumes
-        self.updated += 1
+        DispatchQueue.main.asyncAfter(deadline: .now()+1.0) {
+            self.updated += 1
+        }
     }
     
     let _volumeManagerDiskArbitrationCallback : @convention(c) (_ disk: DADisk, _ context: UnsafeMutableRawPointer?) -> Void = { (disk, context) in
         
-        let mySelf = Unmanaged<F3VolumeDataSource>.fromOpaque(context!).takeUnretainedValue()
-        mySelf.fetchVolumes()
+        DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
+            let mySelf = Unmanaged<F3VolumeDataSource>.fromOpaque(context!).takeUnretainedValue()
+            mySelf.fetchVolumes()
+        }
     }
     
     let _diskDescriptionChanged : @convention(c) (_ disk: DADisk, _ keys: CFArray, _ context: UnsafeMutableRawPointer?) -> Void = { (disk, keys, context) in

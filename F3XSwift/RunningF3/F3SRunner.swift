@@ -91,6 +91,16 @@ class F3SRunner {
             }
         }
     }
+    
+    func cancel() {
+        if self.state == .F3SRunnerStateWriting {
+            self.writeTask!.terminate()
+        }
+        if self.state == .F3SRunnerStateReading {
+            self.readTask!.terminate()
+        }
+        self.state = .F3SRunnerStateCancelled;
+    }
 
     private func runWriteTask() {
         guard let cmdURL = Bundle.main.url(forResource: "f3write", withExtension: nil) else {
@@ -169,7 +179,7 @@ class F3SRunner {
             info.updateValue(components[2], forKey: "eta")
         }
         self.info = info
-        self.progress = 100 * (self.progressFormatter.number(from: components.first!)?.doubleValue ?? 0.0)
+        self.progress = (self.progressFormatter.number(from: components.first!)?.doubleValue ?? 0.0)
     }
     
 }
