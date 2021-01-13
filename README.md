@@ -10,3 +10,6 @@ The tool uses f3write and f3read to test  your SD card for correct capacity as w
 4. After successfull writing the f3read command is started. Again you will see progress and when finished a result of the test.
 
 You can skip the writing process if the card already contains test files written by f3write.
+
+## To come
+Output of full testlog as well as storage of results per card are planned for one of the upcoming updates.
