@@ -20,7 +20,7 @@ class F3SRunner {
         case F3SRunnerStateCompleted
     }
     
-    var backgroundQueue = DispatchQueue.global(qos: .background)
+    var backgroundQueue = DispatchQueue.global(qos: .userInitiated)
     
     var writeTask: VRTask?
     var writeData: String?

@@ -19,6 +19,7 @@ class F3VolumeDataSource: NSObject {
     
     private var diskObservationSession: DASession?
     private var diskObservationQ: DispatchQueue?
+    private var volumeChangeWorkItem: DispatchWorkItem?
     
     private var fetchInProgress: Bool = false
     
@@ -64,17 +65,38 @@ class F3VolumeDataSource: NSObject {
     
     let _volumeManagerDiskArbitrationCallback : @convention(c) (_ disk: DADisk, _ context: UnsafeMutableRawPointer?) -> Void = { (disk, context) in
         
-        DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
-            let mySelf = Unmanaged<F3VolumeDataSource>.fromOpaque(context!).takeUnretainedValue()
-            mySelf.fetchVolumes()
+        let mySelf = Unmanaged<F3VolumeDataSource>.fromOpaque(context!).takeUnretainedValue()
+        
+        if mySelf.volumeChangeWorkItem != nil {
+            mySelf.volumeChangeWorkItem!.cancel()
         }
+        
+        mySelf.volumeChangeWorkItem = DispatchWorkItem(qos: DispatchQoS.background, flags: DispatchWorkItemFlags.inheritQoS) {
+            DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
+                print("volumes")
+                let mySelf = Unmanaged<F3VolumeDataSource>.fromOpaque(context!).takeUnretainedValue()
+                mySelf.fetchVolumes()
+            }
+        }
+        
+        DispatchQueue.global(qos: .background).asyncAfter(deadline: .now()+2.0, execute: mySelf.volumeChangeWorkItem!)
     }
     
     let _diskDescriptionChanged : @convention(c) (_ disk: DADisk, _ keys: CFArray, _ context: UnsafeMutableRawPointer?) -> Void = { (disk, keys, context) in
-        DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
-            let mySelf = Unmanaged<F3VolumeDataSource>.fromOpaque(context!).takeUnretainedValue()
-            mySelf.fetchVolumes()
+        let mySelf = Unmanaged<F3VolumeDataSource>.fromOpaque(context!).takeUnretainedValue()
+        
+        if mySelf.volumeChangeWorkItem != nil {
+            mySelf.volumeChangeWorkItem!.cancel()
         }
+        
+        mySelf.volumeChangeWorkItem = DispatchWorkItem(qos: DispatchQoS.background, flags: DispatchWorkItemFlags.inheritQoS) {
+            DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
+                let mySelf = Unmanaged<F3VolumeDataSource>.fromOpaque(context!).takeUnretainedValue()
+                mySelf.fetchVolumes()
+            }
+        }
+        
+        DispatchQueue.global(qos: .background).asyncAfter(deadline: .now()+1.0, execute: mySelf.volumeChangeWorkItem!)
     }
     
     private func startObservingDisks() {

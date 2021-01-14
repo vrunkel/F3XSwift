@@ -85,7 +85,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTableViewDelegate, NSTable
 
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == "updated" {
-            DispatchQueue.main.asyncAfter(deadline: .now()+1.0, execute: {
+            DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
                 self.volumeTable.reloadData()
             })
             return
