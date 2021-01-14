@@ -11,3 +11,7 @@ So, after choosing your sd card volume, press the Test button and the write test
 The read test uses f3read and can be started without writing if your sd card already has the test files. This can be done by choosing skip write before starting the test.
 
 ![screenshot reading test files](/docs/reading-screen.png)
+
+After the test finishes a simple result is displayed of either approved or failed test.
+
+![screenshot test result](/docs/result.png)
