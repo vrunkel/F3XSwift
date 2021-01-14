@@ -73,7 +73,6 @@ class F3VolumeDataSource: NSObject {
         
         mySelf.volumeChangeWorkItem = DispatchWorkItem(qos: DispatchQoS.background, flags: DispatchWorkItemFlags.inheritQoS) {
             DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
-                print("volumes")
                 let mySelf = Unmanaged<F3VolumeDataSource>.fromOpaque(context!).takeUnretainedValue()
                 mySelf.fetchVolumes()
             }

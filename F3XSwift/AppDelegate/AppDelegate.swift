@@ -32,6 +32,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTableViewDelegate, NSTable
     }
     
     @IBAction func runTest(_ sender: Any?) {
+        
+        /*if self.datasource.volumes![self.volumeTable.selectedRow].freespace == "0 KB" && self.skipWriteButton.state == .off {
+            check wether 0 kb due to test files or other content. test files get deleted, other content doesn't.
+        }*/
+        
         if self.testAndProgressController == nil {
             self.testAndProgressController = F3STestAndProgressWindowController(windowNibName: "F3STestAndProgressWindowController")
         }
@@ -42,22 +47,43 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTableViewDelegate, NSTable
         
         self.window.beginSheet(self.testAndProgressController!.window!) { (response) in
             switch response.rawValue {
-            case -3: print("Bookmark error")
+            case -3:
                 self.testAndProgressController?.close()
                 self.testAndProgressController = nil
-            case -2: print("User cancel bookmark")
+                DispatchQueue.main.async {
+                    let alert = NSAlert()
+                    alert.messageText = "Couldn't create security bookmark"
+                    alert.informativeText = "For some reason I wasn't able to create a security bookmark. Thus write access to the selected volume is not possible. Canceling test."
+                    alert.alertStyle = .warning
+                    alert.runModal()
+                }
+            case -2:
                 self.testAndProgressController?.close()
                 self.testAndProgressController = nil
-            case -1: print("User cancel task")
+                DispatchQueue.main.async {
+                    let alert = NSAlert()
+                    alert.messageText = "Canceled security bookmark"
+                    alert.informativeText = "You canceled creation of a security bookmark. Thus write access to the selected volume is not possible. Canceling test."
+                    alert.alertStyle = .warning
+                    alert.runModal()
+                }
+            case -1:
+                // user cancled
                 self.testAndProgressController?.close()
                 self.testAndProgressController = nil
             case 0:
-                print("runer failed")
                 self.testAndProgressController?.close()
                 self.testAndProgressController = nil
+                DispatchQueue.main.async {
+                    let alert = NSAlert()
+                    alert.messageText = "Failed to start task"
+                    alert.informativeText = "The testing task couldn't be started. Canceling test."
+                    alert.alertStyle = .warning
+                    alert.runModal()
+                }
             case 1:
                 self.datasource.volumes![self.volumeTable.selectedRow].testResults = self.testAndProgressController!.runner!.results!
-                DispatchQueue.main.asyncAfter(deadline: .now()) {
+                DispatchQueue.main.asyncAfter(deadline: .now()+1.0) {
                     self.showResults(volume: self.datasource.volumes![self.volumeTable.selectedRow])
                 }
             default: ()
