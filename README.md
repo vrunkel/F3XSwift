@@ -11,5 +11,7 @@ The tool uses f3write and f3read to test  your SD card for correct capacity as w
 
 You can skip the writing process if the card already contains test files written by f3write.
 
+[See more on using F3XSwift](/docs/usage.md)
+
 ## To come
 Output of full testlog as well as storage of results per card are planned for one of the upcoming updates.
