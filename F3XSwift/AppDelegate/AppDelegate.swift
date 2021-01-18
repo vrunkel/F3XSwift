@@ -40,7 +40,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTableViewDelegate, NSTable
         if self.testAndProgressController == nil {
             self.testAndProgressController = F3STestAndProgressWindowController(windowNibName: "F3STestAndProgressWindowController")
         }
-        self.testAndProgressController?.volume = (self.datasource.volumes![self.volumeTable.selectedRow] )
+        
+        let row = self.volumeTable.selectedRow
+        
+        self.testAndProgressController?.volume = (self.datasource.volumes![row] )
         self.testAndProgressController?.skipWrite = self.skipWriteButton.state == .on
         
         self.testAndProgressController?.createTempBookmark()
@@ -82,9 +85,22 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTableViewDelegate, NSTable
                     alert.runModal()
                 }
             case 1:
-                self.datasource.volumes![self.volumeTable.selectedRow].testResults = self.testAndProgressController!.runner!.results!
-                DispatchQueue.main.asyncAfter(deadline: .now()+1.0) {
-                    self.showResults(volume: self.datasource.volumes![self.volumeTable.selectedRow])
+                if let results = self.testAndProgressController?.runner?.results {
+                    DispatchQueue.main.async {
+                        self.datasource.volumes![row].testResults = results
+                        DispatchQueue.main.asyncAfter(deadline: .now()+1.0) {
+                            self.showResults(volume: self.datasource.volumes![row])
+                        }
+                    }
+                }
+                else {
+                    DispatchQueue.main.async {
+                        let alert = NSAlert()
+                        alert.messageText = "Failed to get test results"
+                        alert.informativeText = "The test finished successfully yet test results could not be obtained."
+                        alert.alertStyle = .warning
+                        alert.runModal()
+                    }
                 }
             default: ()
             }

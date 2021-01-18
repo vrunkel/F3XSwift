@@ -397,7 +397,7 @@
 				CODE_SIGN_ENTITLEMENTS = F3XSwift/F3XSwift.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 3YKFA98U4Y;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = F3XSwift/Info.plist;
@@ -405,6 +405,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MARKETING_VERSION = 1.0.1;
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				PRODUCT_BUNDLE_IDENTIFIER = de.ecoobs.F3XSwift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -419,7 +420,7 @@
 				CODE_SIGN_ENTITLEMENTS = F3XSwift/F3XSwift.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 3YKFA98U4Y;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = F3XSwift/Info.plist;
@@ -427,6 +428,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MARKETING_VERSION = 1.0.1;
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				PRODUCT_BUNDLE_IDENTIFIER = de.ecoobs.F3XSwift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
