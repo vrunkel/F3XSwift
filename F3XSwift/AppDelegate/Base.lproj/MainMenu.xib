@@ -711,12 +711,12 @@
                                     <tableColumns>
                                         <tableColumn width="347" minWidth="40" maxWidth="1000" id="zev-87-eZ6">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
-                                                <font key="font" metaFont="menu" size="11"/>
+                                                <font key="font" metaFont="label" size="11"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                             </tableHeaderCell>
                                             <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" title="Text Cell" id="Xhg-iQ-Kc3">
-                                                <font key="font" metaFont="message"/>
+                                                <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
@@ -732,7 +732,7 @@
                                                                 <constraint firstAttribute="height" constant="17" id="bbO-Qf-VU1"/>
                                                             </constraints>
                                                             <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="GcH-4h-y3M">
-                                                                <font key="font" metaFont="message"/>
+                                                                <font key="font" metaFont="system"/>
                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                             </textFieldCell>
@@ -743,7 +743,7 @@
                                                                 <constraint firstAttribute="height" constant="17" id="1eD-Os-ggE"/>
                                                             </constraints>
                                                             <textFieldCell key="cell" controlSize="small" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="right" title="Free" id="Bfs-l6-S34">
-                                                                <font key="font" metaFont="menu" size="11"/>
+                                                                <font key="font" metaFont="label" size="11"/>
                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                             </textFieldCell>
@@ -754,7 +754,7 @@
                                                                 <constraint firstAttribute="width" constant="87" id="xO8-dx-igc"/>
                                                             </constraints>
                                                             <textFieldCell key="cell" controlSize="small" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Overall" id="Xlf-gR-AJ5">
-                                                                <font key="font" metaFont="menu" size="11"/>
+                                                                <font key="font" metaFont="label" size="11"/>
                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                             </textFieldCell>
@@ -813,6 +813,7 @@
                                     <connections>
                                         <outlet property="dataSource" destination="Voe-Tx-rLC" id="xpG-wy-xps"/>
                                         <outlet property="delegate" destination="Voe-Tx-rLC" id="da2-Qg-yNb"/>
+                                        <outlet property="menu" destination="3hV-Py-dxw" id="lko-9d-c1H"/>
                                     </connections>
                                 </tableView>
                             </subviews>
@@ -831,7 +832,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                         <buttonCell key="cell" type="push" title="Test" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="6qb-Ov-S3Z">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="message"/>
+                            <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
                             <action selector="runTest:" target="Voe-Tx-rLC" id="MVq-aU-iFe"/>
@@ -842,12 +843,29 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <buttonCell key="cell" type="check" title="skip write" bezelStyle="regularSquare" imagePosition="left" inset="2" id="WUP-Nq-d3p">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                            <font key="font" metaFont="message"/>
+                            <font key="font" metaFont="system"/>
                         </buttonCell>
                     </button>
                 </subviews>
             </view>
             <point key="canvasLocation" x="51" y="-102"/>
         </window>
+        <menu id="3hV-Py-dxw">
+            <items>
+                <menuItem title="Eject volume" id="BVc-eo-Up3">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="ejectVolume:" target="Voe-Tx-rLC" id="pML-c3-hOu"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Delete test files" hidden="YES" enabled="NO" id="fDz-Lf-gw5">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="deleteTestFiles:" target="Voe-Tx-rLC" id="c3e-ir-noi"/>
+                    </connections>
+                </menuItem>
+            </items>
+            <point key="canvasLocation" x="-501" y="-159"/>
+        </menu>
     </objects>
 </document>

@@ -62,7 +62,9 @@ class F3STestResults {
             return
         }
         let dataLines = components[1].components(separatedBy: "\n")
-        
+        if dataLines[5].contains("Reading speed not available") {
+            return
+        }
         self.data = dataLines[0].components(separatedBy: " ")[0]
         self.dataLoss = dataLines[1].components(separatedBy: ":")[1]
         self.corrupted = dataLines[2].components(separatedBy: ":")[1]

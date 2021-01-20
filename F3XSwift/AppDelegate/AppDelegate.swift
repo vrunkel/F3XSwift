@@ -102,6 +102,16 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTableViewDelegate, NSTable
                         alert.runModal()
                     }
                 }
+            case 10:
+            self.testAndProgressController?.close()
+            self.testAndProgressController = nil
+            DispatchQueue.main.async {
+                let alert = NSAlert()
+                alert.messageText = "Failed to start read task"
+                alert.informativeText = "The read test couldn't be started. The card does not contain test files from a write test."
+                alert.alertStyle = .warning
+                alert.runModal()
+            }
             default: ()
             }
         }
@@ -125,6 +135,55 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTableViewDelegate, NSTable
         self.resultDisplayController?.showTestResult()
     }
 
+    @IBAction func ejectVolume(_ sender: Any?) {
+        let row = self.volumeTable.clickedRow
+        let allowSelection = self.volumeTable.delegate?.tableView?(self.volumeTable, shouldSelectRow: row)
+        if row == NSNotFound || row < 0 || !(allowSelection ?? false) {
+            return
+        }
+        guard let volume = self.datasource.volumes?[row] else {
+            return
+        }
+        do {
+            try NSWorkspace.shared.unmountAndEjectDevice(at: volume.mountPoint)
+        }
+        catch let error {
+            NSApp.presentError(error)
+        }
+    }
+    
+    @IBAction func deleteTestFiles(_ sender: Any?) { // permission problem, needs another solution
+        let row = self.volumeTable.clickedRow
+        
+        let allowSelection = self.volumeTable.delegate?.tableView?(self.volumeTable, shouldSelectRow: row)
+        if row == NSNotFound || row < 0 || !(allowSelection ?? false) {
+            return
+        }
+        
+        guard let volume = self.datasource.volumes?[row] else {
+            return
+        }
+        
+        let op = NSOpenPanel()
+        op.canChooseFiles = false
+        op.canChooseDirectories = true
+        op.message = "Please confirm test file deletion on volume"
+        op.directoryURL = volume.mountPoint
+        if op.runModal() == .OK {
+            
+            do {
+                var fileCounter = 1
+                while FileManager.default.fileExists(atPath: volume.mountPoint.appendingPathComponent("\(fileCounter).h2w").path) {
+                    try FileManager.default.removeItem(at: volume.mountPoint.appendingPathComponent("\(fileCounter).h2w"))
+                    fileCounter += 1
+                }
+            }
+            catch let error {
+                NSApp.presentError(error)
+            }
+        }
+    }
+    
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == "updated" {
             DispatchQueue.main.asyncAfter(deadline: .now(), execute: {

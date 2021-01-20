@@ -146,18 +146,26 @@ class F3SRunner {
             if output.contains("Average reading speed:") {
                 weakself?.finishedReading()
             }
+            if output.contains("Reading speed not available") {
+                weakself?.finishedReading(success: false)
+            }
             weakself!.parseProgressOutput(output: output)
         }
         
         self.readTask?.launch()
     }
     
-    func finishedReading() {
+    func finishedReading(success: Bool = true) {
         
         self.results = F3STestResults.testResultsWithRaw(writingData: self.writeData, readingData: self.readData)
         self.results!.volumeID = self.volumeID
         self.progress = 100
-        self.state = .F3SRunnerStateCompleted
+        if success {
+            self.state = .F3SRunnerStateCompleted
+        }
+        else {
+            self.state = .F3SRunnerStateFailed
+        }
     }
     
     func parseProgressOutput(output: String) {

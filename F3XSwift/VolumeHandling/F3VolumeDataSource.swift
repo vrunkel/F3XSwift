@@ -21,15 +21,12 @@ class F3VolumeDataSource: NSObject {
     private var diskObservationQ: DispatchQueue?
     private var volumeChangeWorkItem: DispatchWorkItem?
     
-    private var fetchInProgress: Bool = false
-    
     override init() {
         super.init()
         self.startObservingDisks()
     }
     
     func fetchVolumes() {
-        self.fetchInProgress = true
         let volumeKeys = [URLResourceKey.isVolumeKey, URLResourceKey.isWritableKey, URLResourceKey.volumeIdentifierKey]
         let enumerationOptions : FileManager.DirectoryEnumerationOptions = [FileManager.DirectoryEnumerationOptions.skipsSubdirectoryDescendants , FileManager.DirectoryEnumerationOptions.skipsPackageDescendants , FileManager.DirectoryEnumerationOptions.skipsHiddenFiles]
         
@@ -58,7 +55,7 @@ class F3VolumeDataSource: NSObject {
             url = enumerator?.nextObject() as? URL
         }
         self.volumes = volumes
-        DispatchQueue.main.asyncAfter(deadline: .now()+1.0) {
+        DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
             self.updated += 1
         }
     }
@@ -72,7 +69,7 @@ class F3VolumeDataSource: NSObject {
         }
         
         mySelf.volumeChangeWorkItem = DispatchWorkItem(qos: DispatchQoS.background, flags: DispatchWorkItemFlags.inheritQoS) {
-            DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
+            DispatchQueue.main.asyncAfter(deadline: .now()+1.0) {
                 let mySelf = Unmanaged<F3VolumeDataSource>.fromOpaque(context!).takeUnretainedValue()
                 mySelf.fetchVolumes()
             }
@@ -89,7 +86,7 @@ class F3VolumeDataSource: NSObject {
         }
         
         mySelf.volumeChangeWorkItem = DispatchWorkItem(qos: DispatchQoS.background, flags: DispatchWorkItemFlags.inheritQoS) {
-            DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
+            DispatchQueue.main.asyncAfter(deadline: .now()+1.0) {
                 let mySelf = Unmanaged<F3VolumeDataSource>.fromOpaque(context!).takeUnretainedValue()
                 mySelf.fetchVolumes()
             }
