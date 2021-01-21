@@ -107,6 +107,16 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTableViewDelegate, NSTable
             self.testAndProgressController = nil
             DispatchQueue.main.async {
                 let alert = NSAlert()
+                alert.messageText = "Failed to start write task"
+                alert.informativeText = "The write test couldn't be started. The card has no empty space!"
+                alert.alertStyle = .warning
+                alert.runModal()
+            }
+            case 11:
+            self.testAndProgressController?.close()
+            self.testAndProgressController = nil
+            DispatchQueue.main.async {
+                let alert = NSAlert()
                 alert.messageText = "Failed to start read task"
                 alert.informativeText = "The read test couldn't be started. The card does not contain test files from a write test."
                 alert.alertStyle = .warning

@@ -16,6 +16,8 @@ class F3SRunner {
         case F3SRunnerStateWriting
         case F3SRunnerStateReading
         case F3SRunnerStateFailed
+        case F3SRunnerStateFailedWriting
+        case F3SRunnerStateFailedReading
         case F3SRunnerStateCancelled
         case F3SRunnerStateCompleted
     }
@@ -164,7 +166,7 @@ class F3SRunner {
             self.state = .F3SRunnerStateCompleted
         }
         else {
-            self.state = .F3SRunnerStateFailed
+            self.state = .F3SRunnerStateFailedReading
         }
     }
     
@@ -172,6 +174,10 @@ class F3SRunner {
         let bs = String(UnicodeScalar(8))
         let cleanOutput1 = output.replacingOccurrences(of: bs, with: "")
         let cleanOutput = cleanOutput1.replacingOccurrences(of: " ", with: "")
+        
+        if cleanOutput.contains("Nospace") {
+            self.state = .F3SRunnerStateFailedWriting
+        }
         
         if cleanOutput.contains("Removing") {
             var info = Dictionary<String,String>()
