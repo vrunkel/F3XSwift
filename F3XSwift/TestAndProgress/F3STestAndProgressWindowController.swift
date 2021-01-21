@@ -75,9 +75,13 @@ class F3STestAndProgressWindowController: NSWindowController {
                 self.testProgress.doubleValue = runner.progress
                 if runner.info?.count ?? 0 > 0 {
                     var statString = ""
-                    statString += runner.info!["speed"] ?? " "
-                    statString += " - "
-                    statString += runner.info!["eta"] ?? " "
+                    if runner.info!["removing"] != nil {
+                        statString = "Removing old test files"
+                    } else {
+                        statString += runner.info!["speed"] ?? " "
+                        statString += " - "
+                        statString += runner.info!["eta"] ?? " "
+                    }
                     self.statsField.stringValue = statString
                 }
             case .F3SRunnerStateReading:

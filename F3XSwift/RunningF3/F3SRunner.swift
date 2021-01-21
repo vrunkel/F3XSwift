@@ -172,6 +172,15 @@ class F3SRunner {
         let bs = String(UnicodeScalar(8))
         let cleanOutput1 = output.replacingOccurrences(of: bs, with: "")
         let cleanOutput = cleanOutput1.replacingOccurrences(of: " ", with: "")
+        
+        if cleanOutput.contains("Removing") {
+            var info = Dictionary<String,String>()
+            info.updateValue("removing", forKey: "removing")
+            self.info = info
+            self.progress = 0.0
+            return
+        }
+        
         let components = cleanOutput.components(separatedBy: "--")
         let isValidProgressLine = [components.first?.range(of: "%", options: .caseInsensitive, range: nil, locale: nil)]
         
