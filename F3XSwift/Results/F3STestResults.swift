@@ -31,6 +31,7 @@ class F3STestResults {
     var overwritten: String?
     var avgWritingSpeed: String?
     var avgReadingSpeed: String?
+    var testDate: Date?
     
     var approved: Bool {
         let lost = (self.dataLoss ?? " 0 0.00").components(separatedBy: " ")[1]
@@ -45,6 +46,7 @@ class F3STestResults {
         let results = F3STestResults()
         results.rawWritingData = writingData
         results.rawReadingData = readingData
+        results.testDate = Date()
         return results
     }
     

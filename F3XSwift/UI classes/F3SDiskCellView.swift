@@ -11,6 +11,7 @@ import Cocoa
 class F3SDiskCellView: NSTableCellView {
 
     @IBOutlet var testResultTextField: NSTextField!
+    @IBOutlet var testDateTextField: NSTextField!
     
     @IBOutlet var freeSpaceTextField: NSTextField!
     @IBOutlet var overallSpaceTextField: NSTextField!

@@ -21,6 +21,9 @@
 		8B18D93225ADEC1100BB400B /* F3STestResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B18D93125ADEC1100BB400B /* F3STestResults.swift */; };
 		8B18D93525AE1C0100BB400B /* F3SResultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B18D93325AE1C0100BB400B /* F3SResultsController.swift */; };
 		8B18D93625AE1C0100BB400B /* F3SResultsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B18D93425AE1C0100BB400B /* F3SResultsController.xib */; };
+		8B3B7F1825BB3D4800FAFB42 /* F3XSwift.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8B3B7F1625BB3D4800FAFB42 /* F3XSwift.xcdatamodeld */; };
+		8B3B7F2725BB49A200FAFB42 /* SDCard+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3B7F2525BB49A200FAFB42 /* SDCard+CoreDataClass.swift */; };
+		8B3B7F2825BB49A200FAFB42 /* SDCard+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3B7F2625BB49A200FAFB42 /* SDCard+CoreDataProperties.swift */; };
 		8B3EA56B25AEE8CE00570270 /* f3read in Resources */ = {isa = PBXBuildFile; fileRef = 8B3EA56925AEE8CE00570270 /* f3read */; };
 		8B3EA56C25AEE8CE00570270 /* f3write in Resources */ = {isa = PBXBuildFile; fileRef = 8B3EA56A25AEE8CE00570270 /* f3write */; };
 /* End PBXBuildFile section */
@@ -43,6 +46,9 @@
 		8B18D93125ADEC1100BB400B /* F3STestResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = F3STestResults.swift; sourceTree = "<group>"; };
 		8B18D93325AE1C0100BB400B /* F3SResultsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = F3SResultsController.swift; sourceTree = "<group>"; };
 		8B18D93425AE1C0100BB400B /* F3SResultsController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = F3SResultsController.xib; sourceTree = "<group>"; };
+		8B3B7F1725BB3D4800FAFB42 /* F3XSwiftDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = F3XSwiftDataModel.xcdatamodel; sourceTree = "<group>"; };
+		8B3B7F2525BB49A200FAFB42 /* SDCard+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SDCard+CoreDataClass.swift"; sourceTree = "<group>"; };
+		8B3B7F2625BB49A200FAFB42 /* SDCard+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SDCard+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		8B3EA56925AEE8CE00570270 /* f3read */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = f3read; sourceTree = "<group>"; };
 		8B3EA56A25AEE8CE00570270 /* f3write */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = f3write; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -129,6 +135,16 @@
 			path = Results;
 			sourceTree = "<group>";
 		};
+		8B3B7F1F25BB47BD00FAFB42 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				8B3B7F2525BB49A200FAFB42 /* SDCard+CoreDataClass.swift */,
+				8B3B7F2625BB49A200FAFB42 /* SDCard+CoreDataProperties.swift */,
+				8B3B7F1625BB3D4800FAFB42 /* F3XSwift.xcdatamodeld */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
 		8B3EA56625AEE53100570270 /* UI classes */ = {
 			isa = PBXGroup;
 			children = (
@@ -142,6 +158,7 @@
 			children = (
 				8B18D90F25ACB71400BB400B /* MainMenu.xib */,
 				8B18D90B25ACB71300BB400B /* AppDelegate.swift */,
+				8B3B7F1F25BB47BD00FAFB42 /* CoreData */,
 			);
 			path = AppDelegate;
 			sourceTree = "<group>";
@@ -253,7 +270,10 @@
 			files = (
 				8B18D92425ACF79E00BB400B /* VRTask.swift in Sources */,
 				8B18D92E25ADA71000BB400B /* F3STestAndProgressWindowController.swift in Sources */,
+				8B3B7F2825BB49A200FAFB42 /* SDCard+CoreDataProperties.swift in Sources */,
 				8B18D90C25ACB71300BB400B /* AppDelegate.swift in Sources */,
+				8B3B7F1825BB3D4800FAFB42 /* F3XSwift.xcdatamodeld in Sources */,
+				8B3B7F2725BB49A200FAFB42 /* SDCard+CoreDataClass.swift in Sources */,
 				8B18D93525AE1C0100BB400B /* F3SResultsController.swift in Sources */,
 				8B18D91D25ACBC7A00BB400B /* F3VolumeDataSource.swift in Sources */,
 				8B18D92325ACF79E00BB400B /* F3SRunner.swift in Sources */,
@@ -397,7 +417,7 @@
 				CODE_SIGN_ENTITLEMENTS = F3XSwift/F3XSwift.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = 3YKFA98U4Y;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = F3XSwift/Info.plist;
@@ -405,7 +425,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.3;
+				MARKETING_VERSION = 1.1;
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				PRODUCT_BUNDLE_IDENTIFIER = de.ecoobs.F3XSwift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -420,7 +440,7 @@
 				CODE_SIGN_ENTITLEMENTS = F3XSwift/F3XSwift.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = 3YKFA98U4Y;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = F3XSwift/Info.plist;
@@ -428,7 +448,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.3;
+				MARKETING_VERSION = 1.1;
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				PRODUCT_BUNDLE_IDENTIFIER = de.ecoobs.F3XSwift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -458,6 +478,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		8B3B7F1625BB3D4800FAFB42 /* F3XSwift.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				8B3B7F1725BB3D4800FAFB42 /* F3XSwiftDataModel.xcdatamodel */,
+			);
+			currentVersion = 8B3B7F1725BB3D4800FAFB42 /* F3XSwiftDataModel.xcdatamodel */;
+			path = F3XSwift.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 8B18D90025ACB71300BB400B /* Project object */;
 }
