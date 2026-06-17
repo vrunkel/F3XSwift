@@ -3,6 +3,10 @@ macOS GUI to the f3 - Fight Flash Fraud - tool and based on [F3X](https://github
 
 The tool uses f3write and f3read to test  your SD card for correct capacity as well as defects. 
 
+## IMPORTANT NOTE
+
+Due to time constraints I have not run or updated the app within three years. While I have plans to update for newest macOS, it will not happen anytime soon.
+
 ## Installation
 1. Navigate to [Releases](https://github.com/vrunkel/F3XSwift/releases) tab
 2. Latest Release > Assets > Download `F3XSwift.app.zip`
@@ -18,6 +22,3 @@ The tool uses f3write and f3read to test  your SD card for correct capacity as w
 You can skip the writing process if the card already contains test files written by f3write.
 
 [See more on using F3XSwift](/docs/usage.md)
-
-## To come
-Output of full testlog as well as storage of results per card are planned for one of the upcoming updates.
