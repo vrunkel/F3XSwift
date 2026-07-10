@@ -120,7 +120,7 @@ class F3SRunner {
             if output.contains("Average writing speed:") || output.contains("Average sequential write speed:") {
                 weakself?.finishedWriting()
             }
-            weakself!.parseProgressOutput(output: output)
+            weakself?.parseProgressOutput(output: output)
         }
 
         if !(self.writeTask?.launch() ?? false) {
@@ -156,7 +156,7 @@ class F3SRunner {
             else if output.contains("Average reading speed:") || output.contains("Average sequential read speed:") {
                 weakself?.finishedReading()
             }
-            weakself!.parseProgressOutput(output: output)
+            weakself?.parseProgressOutput(output: output)
         }
 
         if !(self.readTask?.launch() ?? false) {

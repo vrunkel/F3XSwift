@@ -96,7 +96,7 @@ class VRTask {
         VRTask.stopFileHandle(standardoutputorerror: self._task?.standardOutput)
         let output = Pipe()
         self._task?.standardOutput = output
-        if self._task?.standardError != nil {
+        if self._task?.standardError == nil {
             self._task?.standardError = self._task?.standardOutput
         }
         if let pipe = self._task?.standardInput as? Pipe {
