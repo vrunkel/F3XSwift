@@ -116,13 +116,16 @@ class F3SRunner {
         
         self.writeTask!.setOutputHandler { (output) in
             weakself?.writeData?.append(output)
-            if output.contains("Average writing speed:") {
+            // f3 <= 8 printed "Average writing speed:", f3 >= 9 prints "Average sequential write speed:"
+            if output.contains("Average writing speed:") || output.contains("Average sequential write speed:") {
                 weakself?.finishedWriting()
             }
             weakself!.parseProgressOutput(output: output)
         }
-        
-        self.writeTask?.launch()
+
+        if !(self.writeTask?.launch() ?? false) {
+            self.state = .F3SRunnerStateFailed
+        }
     }
     
     func finishedWriting() {
@@ -145,16 +148,20 @@ class F3SRunner {
         
         self.readTask!.setOutputHandler { (output) in
             weakself?.readData?.append(output)
-            if output.contains("Average reading speed:") {
-                weakself?.finishedReading()
-            }
-            if output.contains("Reading speed not available") {
+            // f3 <= 8 printed "Reading speed not available" when no test files were found,
+            // f3 >= 9 prints "Average sequential read speed: NO DATA" instead.
+            if output.contains("Reading speed not available") || output.contains("Average sequential read speed: NO DATA") {
                 weakself?.finishedReading(success: false)
+            }
+            else if output.contains("Average reading speed:") || output.contains("Average sequential read speed:") {
+                weakself?.finishedReading()
             }
             weakself!.parseProgressOutput(output: output)
         }
-        
-        self.readTask?.launch()
+
+        if !(self.readTask?.launch() ?? false) {
+            self.state = .F3SRunnerStateFailed
+        }
     }
     
     func finishedReading(success: Bool = true) {

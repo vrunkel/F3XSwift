@@ -6,9 +6,7 @@
 //
 
 import Foundation
-import Cocoa
 
-//class VRTask: Process {
 class VRTask {
     private var _task: Process?
     var arguments: Array<String>? {
@@ -17,9 +15,7 @@ class VRTask {
         }
     }
     var executableURL: URL?
-    var launchPath: String? {
-        self.executableURL?.path
-    }
+
     /**
      Text encoding for the task's input and output. The default is NSUTF8StringEncoding.
      */
@@ -31,80 +27,34 @@ class VRTask {
     var outputHandler: ((String) -> Void)?
 
     /**
-     Invoked when more error output is ready. Can happen many times while the task is running.
-     */
-    //@property (nonatomic, strong) void (^errorHandler)(NSString *);
-
-    /**
      Invoked when the task is completed.
 
      This block is not guaranteed to be fully executed prior to waitUntilExit returning.
      */
-    
     var completionHandler: ((VRTask) -> Void)?
-    
-    //@property (nonatomic, strong) void (^completionHandler)(NTBTask *);
 
     /**
      Stops the file handle from reading. Should be called before replacing/releasing standard output and standard error.
 
      @param standardoutputorerror  NSTask standardOutput or standardError.
      */
-    
-    static func stopFileHandle(standardoutputorerror:Any?) {
+    static func stopFileHandle(standardoutputorerror: Any?) {
         if let pipe = standardoutputorerror as? Pipe {
             pipe.fileHandleForReading.readabilityHandler = nil
         }
     }
-        
+
     /**
-     Finds the full path for the given command. If the command begins with a "." or a "/" it just returns the command since it then presumably
-     already contains the path.
+     Initialises a new task for the given executable URL.
 
-     @param command  The command
-
-     @return  The full path, or nil if the command was not found.
+     @param executableURL  The file URL of the executable to be launched.
      */
-    static func pathForShellCommand(command: String) -> String? {
-        if command.hasPrefix(".") || command.hasPrefix("/") {
-            return command
-        }
-        else {
-            let pathFinder = VRTask(executableURL: URL(fileURLWithPath: "/usr/bin/which"))
-            pathFinder.arguments = [command]
-            let pipe = Pipe()
-            pathFinder._task!.standardOutput = pipe
-            pathFinder.launch()
-            let data = pipe.fileHandleForReading.readDataToEndOfFile()
-            if let string = String(data: data, encoding: .ascii), string.count > 0 {
-                return string
-            }
-            
-            return nil
-        }
-    }
-    
-    /**
-     Initialises a new task. Unless launchPath begins with a "." or a "/" NTBTask will try to find the full path automatically, using the search
-     path of the current process.
-
-     @param launchPath  The path for the executable to be launched.
-     */
-    
-    
     init(executableURL: URL) {
         self.executableURL = executableURL
-        self._task = Process()//Process.launchedProcess(launchPath: self.launchPath!, arguments: [])
+        self._task = Process()
+        self._task!.executableURL = executableURL
         self.encoding = .utf8
-        let path = VRTask.pathForShellCommand(command: self.launchPath!)
-        self._task!.launchPath = path ?? self.launchPath
     }
-
-    /**
-     Launches the task in its own process, and returns before the task is finished.
-     @throws  NSInvalidArgumentException if the launch path has not been set or is invalid or if it fails to create a process.
-     */
-    
 
     /**
      Writes text to the standard input of the task. Works both before and after it is launched.
@@ -113,15 +63,14 @@ class VRTask {
      @param input  The text to send to the task.
      */
     func write(input: String) {
-        guard let _ = self._task?.standardInput as? Pipe else {
-            if let data = input.data(using: self.encoding!) {
-                (self._task?.standardInput as! Pipe).fileHandleForWriting.write(data)
-            }
+        if !(self._task?.standardInput is Pipe) {
+            self._task?.standardInput = Pipe()
+        }
+        guard let pipe = self._task?.standardInput as? Pipe else {
             return
         }
-        self._task?.standardInput = Pipe()
-        if let data = input.data(using: self.encoding!) {
-            (self._task?.standardInput as! Pipe).fileHandleForWriting.write(data)
+        if let data = input.data(using: self.encoding ?? .utf8) {
+            pipe.fileHandleForWriting.write(data)
         }
     }
 
@@ -130,19 +79,19 @@ class VRTask {
 
      @param input  The text to send to the task.
      */
-    
     func writeAndCloseInput(input: String) {
         self.write(input: input)
-        (self._task?.standardInput as! Pipe).fileHandleForWriting.closeFile()
+        if let pipe = self._task?.standardInput as? Pipe {
+            pipe.fileHandleForWriting.closeFile()
+        }
     }
-    
+
     /**
      Launches the task, waits until it's finished, and returns with the output.
      @warning  Any existing output handler will be replaced.
 
      @return  The standard output from the task. Also includes error output if no errorHandler is defined.
      */
-    
     func waitForOutputString() -> String? {
         VRTask.stopFileHandle(standardoutputorerror: self._task?.standardOutput)
         let output = Pipe()
@@ -153,63 +102,67 @@ class VRTask {
         if let pipe = self._task?.standardInput as? Pipe {
             pipe.fileHandleForWriting.closeFile()
         }
-        if !self._task!.isRunning {
-            self._task?.launch()
+        if !(self._task?.isRunning ?? false) {
+            do {
+                try self._task?.run()
+            } catch {
+                return nil
+            }
         }
         self._task?.waitUntilExit()
-        
+
         let read = output.fileHandleForReading
         let data = read.readDataToEndOfFile()
-        let stringRead = String(data: data, encoding: self.encoding!)
-        return stringRead
+        return String(data: data, encoding: self.encoding ?? .utf8)
     }
-    
-    /*
-    func waitUntilExit() {}
-    func interrupt() {} // Not always possible. Sends SIGINT.
-    func terminate() {} // Not always possible. Sends SIGTERM.
 
-    func suspend() -> Bool {
-        return false
-    }
-    func resume() -> Bool {
-        return false
-    }
- */
-    
     // http://stackoverflow.com/a/16274586
     func setOutputHandler(outputHandler: @escaping (String) -> Void) {
         VRTask.stopFileHandle(standardoutputorerror: self._task?.standardOutput)
         self.outputHandler = outputHandler
-        self._task!.standardOutput = Pipe()
-        (self._task!.standardOutput! as! Pipe).fileHandleForReading.readabilityHandler = ((FileHandle) -> Void)? {
-            handle in
+        let pipe = Pipe()
+        self._task?.standardOutput = pipe
+        pipe.fileHandleForReading.readabilityHandler = { [weak self] handle in
+            guard let self = self else { return }
             let data = handle.availableData
-            let output = String(data: data, encoding: self.encoding!)!
-            self.outputHandler!(output)
+            if let output = String(data: data, encoding: self.encoding ?? .utf8) {
+                self.outputHandler?(output)
+            }
         }
     }
-    
-    func launch() {
-        if self._task!.standardError == nil {
-            self._task!.standardError = self._task?.standardOutput
+
+    /**
+     Launches the task and blocks until it has finished. Call from a background queue.
+
+     @return  true if the task was launched successfully.
+     */
+    @discardableResult
+    func launch() -> Bool {
+        guard let task = self._task else {
+            return false
         }
-        weak var weakself = self
-        self._task!.terminationHandler = ((Process) -> Void)? {
-            process in
+        if task.standardError == nil {
+            task.standardError = task.standardOutput
+        }
+        task.terminationHandler = { [weak self] process in
             VRTask.stopFileHandle(standardoutputorerror: process.standardOutput)
             VRTask.stopFileHandle(standardoutputorerror: process.standardError)
 
-            if weakself?.completionHandler != nil {
-                weakself!.completionHandler!(weakself!)
+            if let self = self {
+                self.completionHandler?(self)
             }
         }
-        self._task?.launch()
-        self._task?.waitUntilExit()
+        do {
+            try task.run()
+        } catch {
+            return false
+        }
+        task.waitUntilExit()
+        return true
     }
-    
+
     func terminate() {
         self._task?.terminate()
     }
-    
+
 }

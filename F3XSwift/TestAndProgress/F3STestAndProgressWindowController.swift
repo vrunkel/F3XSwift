@@ -115,6 +115,9 @@ class F3STestAndProgressWindowController: NSWindowController {
                 self.window!.sheetParent?.endSheet(self.window!, returnCode: NSApplication.ModalResponse(rawValue: 10))
             case .F3SRunnerStateFailedReading:
                 self.window!.sheetParent?.endSheet(self.window!, returnCode: NSApplication.ModalResponse(rawValue: 11))
+            case .F3SRunnerStateFailed:
+                self.testProgress.stopAnimation(nil)
+                self.window!.sheetParent?.endSheet(self.window!, returnCode: NSApplication.ModalResponse(rawValue: 0))
             default:
                 ()
             }
