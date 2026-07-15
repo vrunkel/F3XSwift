@@ -55,16 +55,25 @@ class F3STestResults {
     }
     
     private func parseWritingData() {
-        self.avgWritingSpeed = self.rawWritingData?.components(separatedBy: "Average writing speed: ")[1]
+        // f3 <= 8 printed "Average writing speed:", f3 >= 9 prints "Average sequential write speed:"
+        for marker in ["Average sequential write speed: ", "Average writing speed: "] {
+            if let components = self.rawWritingData?.components(separatedBy: marker), components.count > 1 {
+                self.avgWritingSpeed = components[1]
+                return
+            }
+        }
     }
-    
+
     private func parseReadingData() {
         let cleanedReadingData = self.rawReadingData?.replacingOccurrences(of: "\t", with: "")
-        guard let components = cleanedReadingData?.components(separatedBy: "Data OK: ") else {
+        guard let components = cleanedReadingData?.components(separatedBy: "Data OK: "), components.count > 1 else {
             return
         }
         let dataLines = components[1].components(separatedBy: "\n")
-        if dataLines[5].contains("Reading speed not available") {
+        if dataLines.count < 6 {
+            return
+        }
+        if dataLines[5].contains("Reading speed not available") || dataLines[5].contains("NO DATA") {
             return
         }
         self.data = dataLines[0].components(separatedBy: " ")[0]

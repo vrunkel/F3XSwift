@@ -3,9 +3,17 @@ macOS GUI to the f3 - Fight Flash Fraud - tool and based on [F3X](https://github
 
 The tool uses f3write and f3read to test  your SD card for correct capacity as well as defects. 
 
-## IMPORTANT NOTE
+## Requirements
 
-Due to time constraints I have not run or updated the app within three years. While I have plans to update for newest macOS, it will not happen anytime soon.
+macOS 13 (Ventura) or later, including macOS 26 (Tahoe). Runs natively on both Apple Silicon and Intel Macs.
+
+## What's new in 1.2
+
+- Updated for macOS Tahoe (macOS 26) and Apple Silicon: the bundled `f3write`/`f3read` are now universal (arm64 + x86_64) binaries built from [f3](https://github.com/AltraMayor/f3) v10.0 — no Rosetta required.
+- Updated output parsing for f3 v10 (progress, completion detection, and results).
+- Migrated off deprecated `Process` APIs and fixed several potential crashes in output handling.
+- New app icon.
+- Project modernized for current Xcode (deployment target macOS 13, no deprecated `--deep` code signing).
 
 ## Installation
 1. Navigate to [Releases](https://github.com/vrunkel/F3XSwift/releases) tab
