@@ -24,7 +24,7 @@ macOS 13 (Ventura) or later, including macOS 26 (Tahoe). Runs natively on both A
 ## Usage
 1. Select the SD card you want to test. 
 2. Press the Test button. 
-3. The app asks you to grant permission to access the selected sd card (App sandbox requirement) and then f3write starts to write to the disk. You see the progress. Expect that this may take several hours for larger or slow cards. 
+3. The app asks you to grant temporary access to the selected SD card (an App Sandbox requirement), and then `f3write` starts writing to the disk. You see the progress. Expect this to take several hours for larger or slower cards.
 4. After successfull writing the f3read command is started. Again you will see progress and when finished a result of the test.
 
 You can skip the writing process if the card already contains test files written by f3write.

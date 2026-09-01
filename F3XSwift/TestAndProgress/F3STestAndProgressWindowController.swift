@@ -10,6 +10,12 @@ import Cocoa
 
 class F3STestAndProgressWindowController: NSWindowController {
 
+    enum VolumeAccessResult {
+        case granted
+        case cancelled
+        case failed
+    }
+
     @IBOutlet weak var volumeTestLabel: NSTextField!
     @IBOutlet weak var testProgress: NSProgressIndicator!
     @IBOutlet weak var explanationField: NSTextField!
@@ -25,30 +31,36 @@ class F3STestAndProgressWindowController: NSWindowController {
         // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
     }
     
-    func createTempBookmark() {
+    func requestVolumeAccess() -> VolumeAccessResult {
         guard let volume = self.volume else {
-            return
+            return .failed
         }
+
         let op = NSOpenPanel()
         op.canChooseFiles = false
         op.canChooseDirectories = true
+        op.canCreateDirectories = false
+        op.allowsMultipleSelection = false
         op.message = "Please confirm write permissions for the selected volume"
         op.directoryURL = volume.mountPoint
-        if op.runModal() == .OK {
-            do {
-                let _ = try op.url?.bookmarkData(options: .withSecurityScope, includingResourceValuesForKeys: nil, relativeTo: nil)
-            } catch let error as NSError {
-                print("Set Bookmark Fails: \(error.description)")
-                DispatchQueue.main.asyncAfter(deadline: .now()) {
-                    self.window!.sheetParent?.endSheet(self.window!, returnCode: NSApplication.ModalResponse(rawValue: -3))
-                }
-            }
+
+        guard op.runModal() == .OK else {
+            return .cancelled
         }
-        else {
-            DispatchQueue.main.asyncAfter(deadline: .now()) {
-                self.window!.sheetParent?.endSheet(self.window!, returnCode: NSApplication.ModalResponse(rawValue: -2))
-            }
+
+        guard let selectedURL = op.url?.resolvingSymlinksInPath().standardizedFileURL else {
+            return .failed
         }
+
+        let volumeURL = volume.mountPoint.resolvingSymlinksInPath().standardizedFileURL
+        guard selectedURL == volumeURL else {
+            return .failed
+        }
+
+        // NSOpenPanel grants sandbox access to the user-selected URL for this
+        // process. A security-scoped bookmark is only needed to persist that
+        // permission across launches, which this one-shot test does not do.
+        return .granted
     }
         
     func runTest() {
