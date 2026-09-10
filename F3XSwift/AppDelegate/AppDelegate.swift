@@ -139,30 +139,33 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTableViewDelegate, NSTable
         self.testAndProgressController?.volume = (self.datasource.volumes![row] )
         self.testAndProgressController?.skipWrite = self.skipWriteButton.state == .on
         
-        self.testAndProgressController?.createTempBookmark()
+        switch self.testAndProgressController?.requestVolumeAccess() {
+        case .cancelled:
+            self.testAndProgressController?.close()
+            self.testAndProgressController = nil
+
+            let alert = NSAlert()
+            alert.messageText = "Canceled volume access"
+            alert.informativeText = "You canceled access to the selected volume, so the test was not started."
+            alert.alertStyle = .warning
+            alert.runModal()
+            return
+        case .failed, .none:
+            self.testAndProgressController?.close()
+            self.testAndProgressController = nil
+
+            let alert = NSAlert()
+            alert.messageText = "Couldn't access selected volume"
+            alert.informativeText = "Select the volume shown in the access panel to allow F3XSwift to test it."
+            alert.alertStyle = .warning
+            alert.runModal()
+            return
+        case .granted:
+            break
+        }
         
         self.window.beginSheet(self.testAndProgressController!.window!) { (response) in
             switch response.rawValue {
-            case -3:
-                self.testAndProgressController?.close()
-                self.testAndProgressController = nil
-                DispatchQueue.main.async {
-                    let alert = NSAlert()
-                    alert.messageText = "Couldn't create security bookmark"
-                    alert.informativeText = "For some reason I wasn't able to create a security bookmark. Thus write access to the selected volume is not possible. Canceling test."
-                    alert.alertStyle = .warning
-                    alert.runModal()
-                }
-            case -2:
-                self.testAndProgressController?.close()
-                self.testAndProgressController = nil
-                DispatchQueue.main.async {
-                    let alert = NSAlert()
-                    alert.messageText = "Canceled security bookmark"
-                    alert.informativeText = "You canceled creation of a security bookmark. Thus write access to the selected volume is not possible. Canceling test."
-                    alert.alertStyle = .warning
-                    alert.runModal()
-                }
             case -1:
                 // user cancled
                 self.testAndProgressController?.close()
